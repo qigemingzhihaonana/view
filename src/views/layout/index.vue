@@ -5,8 +5,8 @@
     </div>
 
     <div class="body-wrapper">
+			<sidebar class="pane-wraper"/>
       <main-app class="canvas-wrapper"/>
-      <!-- <sidebar class="pane-wraper"/> -->
     </div>
   </div>
 </template>
@@ -24,22 +24,21 @@ export default {
 </script>
 <style lang="scss" scoped>
   .wrapper{
+		width: 100%;
     display: flex;
     flex-direction: column;
     position: fixed;
     .head-wrapper {
       display: flex;
-      
     }
     .body-wrapper {
       display: flex;
       flex-direction: row;
       flex: 1;
       .canvas-wrapper {
-        display: flex;
-        flex-direction: row;
-        flex: 1;
-        background-color:blueviolet
+				flex: 1;
+				position: relative;
+
       }
     }
   }

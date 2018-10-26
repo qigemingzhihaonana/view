@@ -12,11 +12,11 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-menu"></i>
-          <span slot="title" centered>流程管理</span>
+          <span slot="title" >流程管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1" route="">发布流程</el-menu-item>
-          <el-menu-item index="1-2" route="">流程定义</el-menu-item>
+          <el-menu-item index="1-1" >发布流程</el-menu-item>
+          <el-menu-item index="1-2" >流程定义</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">
@@ -25,8 +25,8 @@
           <span slot="title">分类管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-55" route="">流程分类</el-menu-item>
-          <el-menu-item index="1-254" route="">流程配置</el-menu-item>
+          <el-menu-item index="1-55" >流程分类</el-menu-item>
+          <el-menu-item index="1-254" >流程配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="2">
@@ -35,9 +35,9 @@
           <span slot="title">流程历史</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-78" route="">流程实例</el-menu-item>
-          <el-menu-item index="1-777" route="">流程节点</el-menu-item>
-          <el-menu-item index="1-7845" route="">流程任务</el-menu-item>
+          <el-menu-item index="1-78" >流程实例</el-menu-item>
+          <el-menu-item index="1-777" >流程节点</el-menu-item>
+          <el-menu-item index="1-7845" >流程任务</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -50,7 +50,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sidebar-container {
-    margin-top: 60px;
+    margin-top: 100px;
     transition: width 0.28s;
     width: 180px !important;
     position: fixed;

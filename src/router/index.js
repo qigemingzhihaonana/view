@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/view/layout/index'
+import Layout from '@/views/layout/index'
 
 Vue.use(Router)
 
@@ -10,6 +10,18 @@ export default new Router({
       path: '/',
       name: 'Layout',
       component: Layout
-    }
+    },
+		{
+			path: '/dirction',
+			name: 'Layout',
+			component: Layout,
+			children: [
+				{
+					path: '01',
+					name: 'dirction',
+					component: () => import('@/views/dictionary/index')
+				}
+			]
+		}
   ]
 })
