@@ -3,7 +3,7 @@ import axios from '@/utils/axios'
 //获取数字字典的参数
 export function getTree() {
 	return axios({
-		url: '',
+		url: '/parameter/selectParameter',
 		method: 'get'
 	})
 }
@@ -11,7 +11,7 @@ export function getTree() {
 //获取数字字典的详细信息
 export function getTreeMessage(id) {
 	return axios({
-		url: '/' + id,
+		url: '/parameter/selectAllParameterInformation/' + id,
 		method: 'get'
 	})
 }
@@ -27,19 +27,51 @@ export function createNewDirction(data) {
 
 //获取已有的数字字典的类型
 export function getType(id) {
-	url: '/' + id,
-	method: 'get'
+	return axios({
+		url: '/' + id,
+		method: 'get'
+	})
 }
 
 //修改数字字典
 export function updataDirction(data) {
-	url: '/',
-	method: 'post',
-	params: data
+	return axios({
+		url: '/',
+		method: 'post',
+		params: data
+	})
 }
 
 //删除数字字典
 export function delectDirction(id) {
-	url: '/' + id,
-	method: 'get'
+	return axios({
+		url: '/' + id,
+		method: 'get'
+	})
+}
+
+//新增数据字典
+export function createNewTree(data) {
+	return axios({
+		url: '/',
+		method: 'post',
+		params: data
+	})
+}
+
+//编辑数据字典
+export function editTree(data) {
+	return axios({
+		url: '/',
+		method: 'post',
+		params: data
+	})
+}
+
+//删除数据字典
+export function delectTree(id) {
+	return axios({
+		url: '/' + id,
+		method: 'get'
+	})
 }

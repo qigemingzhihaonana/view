@@ -12,16 +12,9 @@ export default new Router({
       component: Layout
     },
 		{
-			path: '/dirction',
-			name: 'Layout',
-			component: Layout,
-			children: [
-				{
-					path: '01',
+					path: '/01',
 					name: 'dirction',
 					component: () => import('@/views/dictionary/index')
-				}
-			]
 		}
   ]
 })

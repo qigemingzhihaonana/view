@@ -4,13 +4,17 @@ import {
 	createNewDirction,
 	getType,
 	updataDirction,
-	delectDirction
+	delectDirction,
+	createNewTree,
+	editTree,
+	delectTree
 } from '@/api/direction'
 
 const direction = {
 		state: {
 			treeData: [],
-			tableData: []
+			tableData: [],
+			myType: []
 		},
 
 		mutations: {
@@ -19,6 +23,9 @@ const direction = {
 			},
 			SET_TABLEDATA: (state, data) => {
 				state.tableData = data
+			},
+			SET_TYPE: (state, data) => {
+				state.myType = data
 			}
 		},
 
@@ -29,7 +36,7 @@ const direction = {
 			}) {
 				return new Promise((resolve, reject) => {
 					getTree().then(response => {
-						const data = response.data
+						const data = response.data.data
 						console.log(response)
 						commit('SET_TREEDATA', data)
 						resolve()
@@ -44,16 +51,20 @@ const direction = {
 			}, id) {
 				return new Promise((resolve, reject) => {
 					getTreeMessage(id).then(response => {
-						const data = response.data
-						console.log(response)
-						commit('SET_TABLEDATA')
+						const table = []
+						if(response.data.data.length === 1 || response.data.data.length === undefined) {
+							table.push(response.data.data)
+							commit('SET_TABLEDATA', table)
+						} else {
+							commit('SET_TABLEDATA', response.data.data)
+						}
 						resolve()
 					}).catch(error => {
 						reject(error)
 					})
 				})
 			},
-			//删除
+			//删除字段
 			Delect({
 				dispath
 			}, id) {
@@ -67,7 +78,7 @@ const direction = {
 					})
 				})
 			},
-			//更新
+			//更新字段
 			Update({
 				dispath
 			}, data) {
@@ -81,20 +92,72 @@ const direction = {
 					})
 				})
 			},
-			//新建
+			//新建字段
 			CreateNew({
 				dispath
 			}, data) {
 				return new Promise((resolve, reject) => {
-						createNewDirction(data).then(() => {
-							dispath('GetTree')
-							dispath('GetTreeMessage', data.id)
-							resolve()
-						}).catch(error => {
-							reject(error)
-						})
-					}
-				}
+					createNewDirction(data).then(() => {
+						dispath('GetTree')
+						dispath('GetTreeMessage', data.id)
+						resolve()
+					}).catch(error => {
+						reject(error)
+					})
+				})
+			},
+			//新建数据字典
+			newTree({
+				dispath
+			}, data) {
+				return new Promise((resolve, reject) => {
+					createNewTree(data).then(() => {
+						dispath('GetTree')
+						resolve()
+					}).catch(error => {
+						reject()
+					})
+				})
+			},
+			//编辑数据字典
+			updateTree({
+				dispath
+			}, data) {
+				return new Promise((resolve, reject) => {
+					editTree(data).then(() => {
+						dispath('GetTree')
+						dispath('GetTreeMessage', data.id)
+						resolve()
+					}).catch(error => {
+						reject()
+					})
+				})
+			},
+			//删除数据字典
+			delTree({
+				dispath
+			}, id) {
+				return new Promise((resolve, reject) => {
+					delectTree(id).then(() => {
+						dispath('GetTree')
+						resolve()
+					}).catch(error => {
+						reject(error)
+					})
+				})
+			},
+			type({
+				commit
+			}) {
+				return new Promise((resolve, reject) => {
+					getType().then(response => {
+						const type = response.data
+						commit('SET_TYPE', type)
+					})
+				})
 			}
 
-			export default direction
+		}
+	}
+
+export default direction
