@@ -25,6 +25,14 @@
 				<el-table :data="tableData" style="width: 100%">
 					<el-table-column type="index" width="30">
 					</el-table-column>
+					<el-table-column
+						label="创建时间"
+						width="180">
+						<template slot-scope="scope">
+							<i class="el-icon-time"></i>
+							<span style="margin-left: 10px">{{ scope.row.create_time }}</span>
+						</template>
+					</el-table-column>
 					<el-table-column label="字段值" width="180">
 						<template slot-scope="scope">
 							<el-popover trigger="hover" placement="top">
@@ -50,18 +58,18 @@
 		</div>
 
 		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%" :before-close="handleClose">
-			<el-form label-position="left" :model="form" inline :rules="rules" ref="form">
-				<el-form-item label="字段值:" prop="dep_name">
-					<el-input v-model="form.parm_value"></el-input>
+			<el-form :label-position="labelPosition" :model="form" inline ref="form">
+				<el-form-item label="字段值:">
+					<el-input style="width: 150px" v-model="form.parm_value"></el-input>
 				</el-form-item>
-				<el-form-item label="字段中文值:" prop="dep_english_name">
-					<el-input v-model="form.parm_name"></el-input>
+				<el-form-item label="字段中文值:" >
+					<el-input style="width: 150px" v-model="form.parm_name"></el-input>
 				</el-form-item>
-				<el-form-item label="字段英文值:" prop="dep_area">
-					<el-input v-model="form.parm_name_en"></el-input>
+				<el-form-item label="字段英文值:" >
+					<el-input style="width: 150px" v-model="form.parm_name_en"></el-input>
 				</el-form-item>
 				<el-form-item label="排序:">
-					<el-input v-model="form.parm_number"></el-input>
+					<el-input style="width: 150px" v-model="form.parm_number"></el-input>
 				</el-form-item>
 				<el-form-item label="是否有效:">
 					<el-select v-model="form.is_show">
@@ -77,8 +85,8 @@
 			</div>
 		</el-dialog>
 
-		<el-dialog :title="textMapT[dialogStatusT]" :visible.sync="dialof=gFormVisibleT" width="60%" :before-close="handleClose">
-			<el-form label-position="left" :model="formTree" inline ：rules="ruleTree" ref="formTree">
+		<el-dialog :title="textMapT[dialogStatusT]" :visible.sync="dialogFormVisibleT" width="60%" :before-close="handleCloseT">
+			<el-form :label-position="labelPosition" :model="formTree" inline ref="formTree">
 				<el-form-item label="节点名称:">
 					<el-input v-model="formTree.nodetype_name"></el-input>
 				</el-form-item>
@@ -109,6 +117,7 @@
 		name: 'dirction',
 		data() {
 			return {
+				labelPosition: 'left',
 				props: {
 					label: 'name',
         	id: 'id'
@@ -161,6 +170,14 @@
 			])
 		},
 		methods: {
+			handleClose() {
+				this.dialogStatus = undefined,
+				this.dialogFormVisible = false
+			},
+			handleCloseT() {
+				this.dialogStatusT = undefined,
+				this.dialogFormVisibleT = false
+			},
 			//初始化弹框
 			restform() {
 				this.form = {
@@ -291,9 +308,12 @@
 			handlerEditTree() {
 				const id = this.currentId
 				if (id !== -1) {
-					this.restformT()
-					this.dialogStatusT = 'create',
-						this.dialogFormVisibleT = true
+					console.log(id)
+					const data = this.treeData.filter(word => (word.id === this.currentId))
+					console.log(data[0])
+					this.formTree = Object.assign({}, data[0])
+					this.dialogStatusT = 'edit',
+					this.dialogFormVisibleT = true
 				} else {
 					this.$message({
 						type: 'error',
@@ -317,12 +337,15 @@
 		display: flex;
 		flex-direction: row;
 		position: relative;
-		flex: 1;
-		background-color: aqua;
-
+		flex-wrap: nowrap;
 		.dir-main {
+			margin-left: 300px;
+			flex-direction: column;
 			position: absolute;
-			overflow: auto;
+			width: 600px;
+			.tableMessage {
+				margin-top: 20px;
+			}
 		}
 	}
 

@@ -36,7 +36,8 @@ const direction = {
 			}) {
 				return new Promise((resolve, reject) => {
 					getTree().then(response => {
-						const data = response.data.data
+						// const data = response.data.data
+						const data = response.data
 						console.log(response)
 						commit('SET_TREEDATA', data)
 						resolve()
@@ -51,13 +52,13 @@ const direction = {
 			}, id) {
 				return new Promise((resolve, reject) => {
 					getTreeMessage(id).then(response => {
-						const table = []
-						if(response.data.data.length === 1 || response.data.data.length === undefined) {
-							table.push(response.data.data)
-							commit('SET_TABLEDATA', table)
-						} else {
-							commit('SET_TABLEDATA', response.data.data)
-						}
+						// const table = []
+						// if(response.data.data.length === 1 || response.data.data.length === undefined) {
+						// 	table.push(response.data.data)
+							commit('SET_TABLEDATA', response.data)
+						//} else {
+							commit('SET_TABLEDATA', response.data)
+					//	}
 						resolve()
 					}).catch(error => {
 						reject(error)

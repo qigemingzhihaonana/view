@@ -15,6 +15,11 @@ export default new Router({
 					path: '/01',
 					name: 'dirction',
 					component: () => import('@/views/dictionary/index')
-		}
+    },
+    {
+      path: '/02',
+      name: 'bpmn',
+      component: () => import('@/views/process/index')
+    }
   ]
 })
