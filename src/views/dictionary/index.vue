@@ -6,14 +6,8 @@
 				<el-button type="primary" icon="edit" @click="handlerEditTree">编辑</el-button>
 				<el-button type="primary" icon="delete" @click="handleDeleteTree">删除</el-button>
 			</el-button-group>
-				<el-tree
-				:props="props" 
-				:data="treeData" 
-				node-key="id" 
-				highlight-current 
-				ref="menuTree" 
-				@node-click="getNodeData">
-				</el-tree>
+			<el-tree :props="props" :data="treeData" node-key="id" highlight-current ref="menuTree" @node-click="getNodeData">
+			</el-tree>
 		</div>
 		<div class="dir-main" v-show="show">
 			<div class="topButton">
@@ -25,9 +19,7 @@
 				<el-table :data="tableData" style="width: 100%">
 					<el-table-column type="index" width="30">
 					</el-table-column>
-					<el-table-column
-						label="创建时间"
-						width="180">
+					<el-table-column label="创建时间" width="180">
 						<template slot-scope="scope">
 							<i class="el-icon-time"></i>
 							<span style="margin-left: 10px">{{ scope.row.create_time }}</span>
@@ -62,10 +54,10 @@
 				<el-form-item label="字段值:">
 					<el-input style="width: 150px" v-model="form.parm_value"></el-input>
 				</el-form-item>
-				<el-form-item label="字段中文值:" >
+				<el-form-item label="字段中文值:">
 					<el-input style="width: 150px" v-model="form.parm_name"></el-input>
 				</el-form-item>
-				<el-form-item label="字段英文值:" >
+				<el-form-item label="字段英文值:">
 					<el-input style="width: 150px" v-model="form.parm_name_en"></el-input>
 				</el-form-item>
 				<el-form-item label="排序:">
@@ -120,7 +112,7 @@
 				labelPosition: 'left',
 				props: {
 					label: 'name',
-        	id: 'id'
+					id: 'id'
 				},
 				formTree: {
 					nodetype_name: undefined,
@@ -172,11 +164,11 @@
 		methods: {
 			handleClose() {
 				this.dialogStatus = undefined,
-				this.dialogFormVisible = false
+					this.dialogFormVisible = false
 			},
 			handleCloseT() {
 				this.dialogStatusT = undefined,
-				this.dialogFormVisibleT = false
+					this.dialogFormVisibleT = false
 			},
 			//初始化弹框
 			restform() {
@@ -313,7 +305,7 @@
 					console.log(data[0])
 					this.formTree = Object.assign({}, data[0])
 					this.dialogStatusT = 'edit',
-					this.dialogFormVisibleT = true
+						this.dialogFormVisibleT = true
 				} else {
 					this.$message({
 						type: 'error',
@@ -338,11 +330,13 @@
 		flex-direction: row;
 		position: relative;
 		flex-wrap: nowrap;
+
 		.dir-main {
 			margin-left: 300px;
 			flex-direction: column;
 			position: absolute;
 			width: 600px;
+
 			.tableMessage {
 				margin-top: 20px;
 			}
