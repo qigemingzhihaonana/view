@@ -1,13 +1,13 @@
 <template>
 	<div class="type-message">
 		<div class="top-message">
-			<el-input placeholder="客户类型" v-model="listQuery.sample_client" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-			<el-input placeholder="检测类型" v-model="listQuery.business_type" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-			<el-input placeholder="检测大类" v-model="listQuery.sample_sup_class" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+			<el-input placeholder="客户类型" v-model="listQuery.sample_client" style="width: 200px;" @keyup.enter.native="handleFilter" />
+			<el-input placeholder="检测类型" v-model="listQuery.business_type" style="width: 200px;" @keyup.enter.native="handleFilter" />
+			<el-input placeholder="检测大类" v-model="listQuery.sample_sup_class" style="width: 200px;" @keyup.enter.native="handleFilter" />
 			<el-input placeholder="规格型号" v-model="listQuery.sample_type" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-			<el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-			<el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">新增</el-button>
-			<el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+			<el-button type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+			<el-button style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">新增</el-button>
+			<el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
 		</div>
 
 		<div class="message">
@@ -61,7 +61,7 @@
 					<el-upload class="upload-demo" drag action="???" :before-upload="beforeUpload" multiple ref="newupload" :auto-upload="false" accept=".xls, .xlsx" :on-change="newhandleChange" :on-success="newhandlesuccess">
 						<i class="el-icon-upload"></i>
 						<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em> </div>
-						<div class="el-upload__tip" slot="tip">请注意您只能上传.xls .xlsx格式的视频文件</div>
+						<div class="el-upload__tip" slot="tip">请注意您只能上传.xls .xlsx格式的文件</div>
 					</el-upload>
 				</el-form-item>
 				<el-form-item>
@@ -124,7 +124,7 @@
 			/*新增检测标准*/
 			handleCreate() {
 				this.dialogFormVisible = true
-				this.restFormNew
+				this.restFormNew()
 			},
 			/*初始化上传*/
 			restFormNew() {
@@ -149,6 +149,7 @@
 				})
 				this.dialogFormVisible = false
 				return true
+				this.handleFilter()
 			},
 			/*导出文件*/
 			handleDownload() {
