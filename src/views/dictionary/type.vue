@@ -28,12 +28,11 @@
 					<el-table-column label="字段值" width="180">
 						<template slot-scope="scope">
 							<el-popover trigger="hover" placement="top">
-								<p>字段中文名: {{ scope.row.parm_name }}</p>
-								<p>字段英文名: {{ scope.row.parm_name_en }}</p>
-								<p>字段类型: {{ scope.row.parm_type }}</p>
-								<p>排序: {{ scope.row.parm_number }}</p>
-								<p v-if="scope.row.is_show === '0'">是否有效: 有效 </p>
-								<p v-if="scope.row.is_show === '1'">是否有效: 无效 </p>
+								<p>字段中文名: {{ scope.row.parm_type_name_cn }}</p>
+								<p>字段英文名: {{ scope.row.parm_type_name }}</p>
+								<p>更新时间: {{ scope.row.update_time }}</p>
+								<p>更新人员: {{ scope.row.update_oper }}</p>
+								<p>创建人员: {{ scope.row.create_oper }}</p>
 								<div slot="reference" class="name-wrapper">
 									<el-tag size="medium">{{ scope.row.parm_value }}</el-tag>
 								</div>
@@ -52,33 +51,11 @@
 
 		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%" :before-close="handleClose">
 			<el-form :label-position="labelPosition" :model="form" inline ref="form">
-				<el-form-item label="字段值:">
-					<el-input style="width: 150px" v-model="form.parm_value"></el-input>
-				</el-form-item>
 				<el-form-item label="字段中文值:">
-					<el-input style="width: 150px" v-model="form.parm_name"></el-input>
+					<el-input style="width: 150px" v-model="form.parm_type_name_cn"></el-input>
 				</el-form-item>
 				<el-form-item label="字段英文值:">
-					<el-input style="width: 150px" v-model="form.parm_name_en"></el-input>
-				</el-form-item>
-				<el-form-item label="字段类型:">
-					<el-select v-model="form.parm_type" placeholder="请选择">
-						<el-option
-						v-for="item in optionForm"
-						:key="item.id"
-						:label="item.parm_type_name"
-						:value="item.id">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="排序:">
-					<el-input style="width: 150px" v-model="form.parm_number"></el-input>
-				</el-form-item>
-				<el-form-item label="是否有效:">
-					<el-select v-model="form.is_show">
-						<el-option v-for="item in is_show" :key="item.key" :label="item.label" :value="item.value">
-						</el-option>
-					</el-select>
+					<el-input style="width: 150px" v-model="form.parm_type_name"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -113,10 +90,13 @@
 	</div>
 </template>
 <script>
-	import {
-		mapGetters
-	} from 'vuex'
-	import { getparamType } from "@/api/direction";
+import { 
+    fetchMessage,
+    fetchALLmessage,
+    updatMessage,
+    delectMessage,
+    addMessage
+ } from "@/api/type";
 	export default {
 		name: 'dirction',
 		data() {
@@ -136,22 +116,9 @@
 				show: false,
 				form: {
 					id: undefined,
-					parm_type: undefined,
-					parm_name: undefined,
-					parm_name_en: undefined,
-					parm_number: undefined,
-					parm_value: undefined,
-					is_show: '0'
+					parm_type_name: undefined,
+					parm_type_name_cn: undefined,
 				},
-				is_show: [{
-						label: '是',
-						value: '0'
-					},
-					{
-						label: '否',
-						value: '1'
-					}
-				],
 				textMap: {
 					edit: '编辑',
 					create: '创建'
@@ -169,13 +136,6 @@
 		created() {
 			this.getTreeName()
 		},
-		computed: {
-			...mapGetters([
-				'treeData',
-				'tableData',
-				'myType'
-			])
-		},
 		methods: {
 			handleClose() {
 				this.dialogStatus = undefined,
@@ -188,16 +148,15 @@
 			//初始化弹框
 			restform() {
 				this.form = {
-					parm_name: undefined,
-					parm_name_en: undefined,
-					parm_number: undefined,
-					parm_value: undefined,
-					is_show: '0'
+					parm_type_name: undefined,
+					parm_type_name_cn: undefined,
 				}
 			},
 			//获取数据字典名称
 			getTreeName() {
-				this.$store.dispatch('GetTree')
+				fetchMessage().then(response => {
+                    this.treeData = response.data.data
+                })
 			},
 			//获取详细数据信息
 			getNodeData(data) {

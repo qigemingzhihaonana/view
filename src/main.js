@@ -9,7 +9,7 @@ import store from './store'
 import './icon'
 import 'nprogress/nprogress.css'
 import NProgress from 'nprogress' // Progress 进度条
-import './mock'
+//import './mock'
 
 Vue.use(ElementUI)
 

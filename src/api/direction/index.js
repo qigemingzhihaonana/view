@@ -16,12 +16,12 @@ export function getTreeMessage(id) {
 	})
 }
 
-//新增数字字典
+//新增数字字典参数
 export function createNewDirction(data) {
 	return axios({
-		url: '/',
+		url: '/parameter/insertParameter',
 		method: 'post',
-		params: data
+		data
 	})
 }
 
@@ -33,19 +33,19 @@ export function getType(id) {
 	})
 }
 
-//修改数字字典
+//修改数字字典参参数
 export function updataDirction(data) {
 	return axios({
-		url: '/',
+		url: '/parameter/updateParameter',
 		method: 'post',
-		params: data
+		data
 	})
 }
 
-//删除数字字典
+//删除数字字典参数
 export function delectDirction(id) {
 	return axios({
-		url: '/' + id,
+		url: '/parameter/deleteParameter/' + id,
 		method: 'get'
 	})
 }
@@ -55,7 +55,7 @@ export function createNewTree(data) {
 	return axios({
 		url: '/',
 		method: 'post',
-		params: data
+		data
 	})
 }
 
@@ -64,7 +64,7 @@ export function editTree(data) {
 	return axios({
 		url: '/',
 		method: 'post',
-		params: data
+		data
 	})
 }
 
@@ -72,6 +72,14 @@ export function editTree(data) {
 export function delectTree(id) {
 	return axios({
 		url: '/' + id,
+		method: 'get'
+	})
+}
+
+//获取参数类型
+export function getparamType()  {
+	return axios({
+		url:'/parameter/selectAllParameterType',
 		method: 'get'
 	})
 }

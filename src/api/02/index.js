@@ -17,10 +17,7 @@ export function addCheckStander(data) {
 	return axios({
 		url: '/',
 		method: 'post',
-		headers: {
-			'Content-Type': 'multipart/form-data'
-		}
-		params: data
+		data
 	})
 }
 

@@ -3,13 +3,7 @@
 		<div class="top-set">
 			<el-form :inline="true" class="form-inline">
 				<el-form-item label="审批人">
-					<el-input v-model="user" placeholder="流程类型"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="add">新增</el-button>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="delect">删除</el-button>
+					<el-input v-model="taskType" placeholder="流程类型"></el-input>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -42,22 +36,32 @@
 						<el-tag size="medium">{{ scope.row. }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作">
+				<!-- <el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 		</div>
 	</div>
 </template>
 <script>
-	export function {
+import { fetchTask, addTask,  delTask, updataTask} from '@/api/taskSet'
+	export default {
 		data() {
 			return {
-				user: undefined,
+				taskType: undefined,
 				tableData: [],
-
+			}
+		},
+		create() {
+			this.getTask()
+		},
+		method: {
+			getTask() {
+				fetchTask(this.taskType).then( responer => {
+					this.tableData = response.data.data
+				})
 			}
 		}
 	}

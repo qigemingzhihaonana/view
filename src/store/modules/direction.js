@@ -37,7 +37,7 @@ const direction = {
 				return new Promise((resolve, reject) => {
 					getTree().then(response => {
 						// const data = response.data.data
-						const data = response.data
+						const data = response.data.data
 						console.log(response)
 						commit('SET_TREEDATA', data)
 						resolve()
@@ -52,13 +52,13 @@ const direction = {
 			}, id) {
 				return new Promise((resolve, reject) => {
 					getTreeMessage(id).then(response => {
-						// const table = []
-						// if(response.data.data.length === 1 || response.data.data.length === undefined) {
-						// 	table.push(response.data.data)
-							commit('SET_TABLEDATA', response.data)
-						//} else {
-							commit('SET_TABLEDATA', response.data)
-					//	}
+						 const table = []
+						 if(response.data.data === null || response.data.data.length === 1 || response.data.data.length === undefined) {
+						 	table.push(response.data.data)
+							commit('SET_TABLEDATA', table)
+						} else {
+							commit('SET_TABLEDATA', response.data.data)
+						}
 						resolve()
 					}).catch(error => {
 						reject(error)
@@ -67,12 +67,12 @@ const direction = {
 			},
 			//删除字段
 			Delect({
-				dispath
+				dispatch
 			}, id) {
 				return new Promise((resolve, reject) => {
 					delectDirction(id).then(() => {
-						dispath('GetTree')
-						dispath('GetTreeMessage', id)
+						dispatch('GetTree')
+						dispatch('GetTreeMessage', id)
 						resolve()
 					}).catch(error => {
 						reject(error)
@@ -81,12 +81,13 @@ const direction = {
 			},
 			//更新字段
 			Update({
-				dispath
+				dispatch
 			}, data) {
 				return new Promise((resolve, reject) => {
+					console.log(data)
 					updataDirction(data).then(() => {
-						dispath('GetTree')
-						dispath('GetTreeMessage', data.id)
+						dispatch('GetTree')
+						dispatch('GetTreeMessage', data.id)
 						resolve()
 					}).catch(error => {
 						reject(error)
@@ -95,12 +96,13 @@ const direction = {
 			},
 			//新建字段
 			CreateNew({
-				dispath
+				dispatch
 			}, data) {
 				return new Promise((resolve, reject) => {
+					console.log(data)
 					createNewDirction(data).then(() => {
-						dispath('GetTree')
-						dispath('GetTreeMessage', data.id)
+						dispatch('GetTree')
+						dispatch('GetTreeMessage', data.id)
 						resolve()
 					}).catch(error => {
 						reject(error)
@@ -109,11 +111,11 @@ const direction = {
 			},
 			//新建数据字典
 			newTree({
-				dispath
+				dispatch
 			}, data) {
 				return new Promise((resolve, reject) => {
 					createNewTree(data).then(() => {
-						dispath('GetTree')
+						dispatch('GetTree')
 						resolve()
 					}).catch(error => {
 						reject()
@@ -122,12 +124,12 @@ const direction = {
 			},
 			//编辑数据字典
 			updateTree({
-				dispath
+				dispatch
 			}, data) {
 				return new Promise((resolve, reject) => {
 					editTree(data).then(() => {
-						dispath('GetTree')
-						dispath('GetTreeMessage', data.id)
+						dispatch('GetTree')
+						dispatch('GetTreeMessage', data.id)
 						resolve()
 					}).catch(error => {
 						reject()
@@ -136,11 +138,11 @@ const direction = {
 			},
 			//删除数据字典
 			delTree({
-				dispath
+				dispatch
 			}, id) {
 				return new Promise((resolve, reject) => {
 					delectTree(id).then(() => {
-						dispath('GetTree')
+						dispatch('GetTree')
 						resolve()
 					}).catch(error => {
 						reject(error)
