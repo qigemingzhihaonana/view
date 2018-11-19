@@ -14,6 +14,7 @@
 .tab {
   .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
     font-family: 'Times New Roman', Times, serif;
+  
     color:darkgrey !important;
   }
 }

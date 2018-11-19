@@ -16,10 +16,20 @@ export default new Router({
 					name: 'dirction',
 					component: () => import('@/views/dictionary/index')
     },
-    // {
-    //   path: '/02',
-    //   name: 'bpmn',
-    //   component: () => import('@/views/process/index')
-    // },
+    {
+      path: '/02',
+      name: 'bpmn',
+      component: () => import('@/views/02/index')
+    },
+    {
+      path: '/03',
+      name: 'bpmn',
+      component: () => import('@/views/task/NewTask')
+    },
+    {
+      path: '/04',
+      name: 'bpmn',
+      component: () => import('@/views/task/NewTaskCheck')
+    },
   ]
 })

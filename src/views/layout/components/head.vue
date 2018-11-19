@@ -3,7 +3,7 @@
 		<el-menu class="el-menu-demo" mode="horizontal" width="100%">
 			<el-menu-item index="1">处理中心</el-menu-item>
 			<el-submenu index="2">
-				<template slot="title">我的工作台</template>
+				<template slot="title">{{show}}</template>
 				<el-menu-item index="2-1">选项1</el-menu-item>
 				<el-menu-item index="2-2">选项2</el-menu-item>
 				<el-menu-item index="2-3">选项3</el-menu-item>
@@ -28,13 +28,13 @@
 			}
 		},
 		created() {
-			//      document.addEventListener('click', (e) => {
-			//        if(!this.$el.contains(e.target)) {
-			//          console.log(this.$el.contains(e.target))
-			//          console.log(e.target.className)
-			//          this.show = 456
-			//        }
-			//      })
+			     document.addEventListener('click', (e) => {
+			       if(!this.$el.contains(e.target)) {
+			         console.log(this.$el.contains(e.target))
+			         console.log(e.target.className)
+			         this.show = 456
+			       }
+			     })
 		},
 		methods: {
 			handleClick(tab, event) {

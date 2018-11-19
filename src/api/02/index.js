@@ -1,4 +1,4 @@
-import axios from '@/utils/axio'
+import axios from '@/utils/axios'
 
 /*
 获取检测维护标准
@@ -15,7 +15,7 @@ export function getMessage() {
 */
 export function addCheckStander(data) {
 	return axios({
-		url: '/',
+		url: '/excel/insertSysCheckStandard',
 		method: 'post',
 		data
 	})

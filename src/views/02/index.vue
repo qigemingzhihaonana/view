@@ -58,7 +58,7 @@
 					<el-input v-model="formNew.sample_client" placeholder="请输入"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-upload class="upload-demo" drag action="???" :before-upload="beforeUpload" multiple ref="newupload" :auto-upload="false" accept=".xls, .xlsx" :on-change="newhandleChange" :on-success="newhandlesuccess">
+					<el-upload class="upload-demo" drag action="/" :before-upload="beforeUpload" multiple ref="newupload" :auto-upload="false" accept=".xls, .xlsx" :on-change="newhandleChange">
 						<i class="el-icon-upload"></i>
 						<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em> </div>
 						<div class="el-upload__tip" slot="tip">请注意您只能上传.xls .xlsx格式的文件</div>
@@ -112,6 +112,9 @@
 			handleFilter() {
 				this.listLoading = true
 				getMessage(this.listQuery).then(response => {
+					setTimeout(() => {
+						this.listLoading = false
+					}, 1.5 * 1000)
 					const data = []
 					if (response.data.length !== undefined) {
 						this.tableData = response.data.data
@@ -143,6 +146,7 @@
 				myFile.append('check_proj_type', this.formNew.check_proj_type)
 				myFile.append('sample_client', this.formNew.sample_client)
 				addCheckStander(myFile).then(() => {
+					this.newhandlesuccess()
 					setTimeout(() => {
 						this.listLoading = false
 					}, 1.5 * 1000)
@@ -154,7 +158,24 @@
 			/*导出文件*/
 			handleDownload() {
 
+			},
+			handleSizeChange(size) {
+				this.pagesize = size;
+			},
+			 handleCurrentChange(currentPage){
+				this.currentPage = currentPage;
+			},
+			handleClose() {
+				this.dialogFormVisible = false
+				this.restFormNew()
+			},
+			newhandlesuccess() {
+				 this.$message({
+					message: '文件上传成功',
+					type: 'success'
+					});
 			}
 		}
+	}
 
 </script>
