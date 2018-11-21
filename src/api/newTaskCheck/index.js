@@ -26,8 +26,8 @@ export function backTask(id) {
  */
 export function agreeTask(id) {
     return axioss({
-        url: '/',
-        method: 'get',
-        params: id
+        url: '/busBitem/completeTask',
+        method: 'post',
+        id
     })
 }

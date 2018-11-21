@@ -3,10 +3,10 @@
         <div class="head">
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item label="项目编号">
-                    <el-input v-model="itemNo" placeholder="审批人"></el-input>
+                    <el-input v-model="itemNo" placeholder="项目编号"></el-input>
                 </el-form-item>
                 <el-form-item label="项目名称">
-                    <el-input v-model="itemName" placeholder="审批人"></el-input>
+                    <el-input v-model="itemName" placeholder="项目名称"></el-input>
                 </el-form-item>
                 <el-form-item label="业务类型">
                     <el-select v-model="businessType" placeholder="请选择">
@@ -65,13 +65,13 @@
                 <template slot-scope="scope">
                     <el-button
                     size="mini"
-                    @click="handleEdit(scope.row)">项目详细信息</el-button>
+                    @click="handleEdit(scope.row)">查看项目详细信息</el-button>
                     <el-button
                     size="mini"
-                    @click="handleStop(scope.row)" v-if="this.stop === false">挂起</el-button>
+                    @click="handleStop(scope.row)" >挂起</el-button>
                     <el-button
                     size="mini"
-                    @click="handleStop(scope.row)" v-if="this.stop === true">激化</el-button>
+                    @click="handleStop(scope.row)" >激活</el-button>
                     <el-button
                     size="mini"
                     type="success"
@@ -88,7 +88,7 @@
                 <el-step v-if="this.stop === false" title="项目运行中" description="这段就没那么长了"></el-step>
                 <el-step v-if="this.stop === true" title="项目挂起" description="这段就没那么长了"></el-step>
             </el-steps>
-			<el-form label-position="left" rules="formRules" :model="form" inline ref="formNew">
+			<el-form :disabled="show" label-position="left" rules="formRules" :model="form" inline ref="form">
 				<el-form-item label="项目编号:" prop="itemNo">
 					<el-input v-model="form.itemNo"></el-input>
 				</el-form-item>
@@ -196,15 +196,17 @@
 </template>
 
 <script>
-import { queryTask, addTask, editTask, stopTask } from '@/api/NewTask'
+import { queryTask, addTask, editTask, stopTask, taskStep, } from '@/api/NewTask'
 export default {
     data() {
         return {
-            itemNo: undefined,
-            itemName: undefined,
-            businessType: undefined,
+            show: false,
+            active: 1,
+            key: undefined,
+            itemNo: '',
+            itemName: '',
+            businessType: '',
             stop: false,
-            taskId: this.itemNo,
             taskName: this.itemName,
             dialogFormVisibleStopTask: false,
             taskStopReason: undefined,
@@ -246,21 +248,33 @@ export default {
          */
         handleEdit(row) {
             this.dialogFormVisible = true
-            this.dialogStatus = edit
+            console.log(row.procInstId)
+            taskStep(row.procInstId).then(response => {
+                console.log(response)
+                this.active = response.data.data.code
+                if (this.active !== 1) {
+                    this.show = false
+                }
+            })
+            this.dialogStatus = 'edit'
             this.form = Object.assign({}, row)
             this.$nextTick(() => {
-                this.$refs['formNew'].clearValidate()
+                this.$refs['form'].clearValidate()
             })
         },
         /**
          * 项目立项
          */
         add() {
+            console.log(this.show)
             this.restForm()
+            this.show = false
+            console.log(this.show)
             this.dialogFormVisible = true
             this.dialogStatus = 'create'
+             console.log(this.show)
             this.$nextTick(() => {
-                this.$refs['formNew'].clearValidate
+                this.$refs['form'].clearValidate
             })
         },
         /**
@@ -289,7 +303,21 @@ export default {
          * 查询
          */
         onSubmit() {
-            
+            queryTask(this.itemNo, this.itemName, this.businessType).then(response => {
+                console.log(response)
+                if (response.data.data.length === 1 || response.data.data.length === undefined) {
+                    const data = []
+                    data.push(response.data.data)
+                    this.tableData = data
+                } else if (response.data.data.length === 0) {
+                    this.$message({
+                        type: 'error',
+                        message: '没有项目启动'
+                    })
+                }
+                this.tableData = response.data.data
+                console.log(this.tableData)
+            }) 
         },
         /**
          * 清除
@@ -320,6 +348,7 @@ export default {
                 if (valid) {
                     addTask(this.form).then(() => {
                         this.onSubmit()
+                        this.dialogFormVisible = false
                         this.$message({
                             message: '项目创建成功，等待审批',
                             type: 'success'
@@ -359,7 +388,7 @@ export default {
          */
         sure() {
             this.dialogFormVisibleStopTask = false
-            stopTask(taskId, taskStopReason).then(() => {
+            stopTask(this.form.itemNo, taskStopReason).then(() => {
                 this.onSubmit()
                 this.$message({
                     type: 'success',

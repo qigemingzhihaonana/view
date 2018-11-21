@@ -15,7 +15,7 @@ export function queryTask(itemNo, itemName, businessType) {
         businessType
     }
     return axios({
-        url: '/',
+        url: '/busBitem/selectProjectByUser',
         method: 'post',
         data
     })
@@ -25,9 +25,13 @@ export function queryTask(itemNo, itemName, businessType) {
  * 新增项目
  * @param {data} data 
  */
-export function addTask(data) {
+export function addTask(busBitem) {
+    const data = {
+        key:'project',
+        busBitem
+    }
     return axios({
-        url: '/',
+        url: '/activiti/startProcessInstance',
         method: 'post',
         data
     })
@@ -54,5 +58,19 @@ export function stopTask(id) {
         url: '/',
         method: 'get',
         params: id
+    })
+}
+
+/**
+ * 查询任务进度
+ */
+export function taskStep(procInstd) {
+    const data = {
+        procInstd
+    }
+    return axios({
+        url: '/busBitem/getProjectStep',
+        method: 'post',
+        data
     })
 }

@@ -47,15 +47,15 @@
                     v-show="tableData.length > 0"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :current-page="currentPage4"
+                    :current-page="currentPage"
                     :page-sizes="[10, 20, 50, 100]"
                     :page-size="pagesize"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="tableData.length">
                 </el-pagination>
             </div>
-        <el-dialog title="项目信息" :visible.sync="dialogFormVisible" width="60%" :before-close="handleClose">
-			<el-form :label-position="labelPosition" :disabled="true" rules="formRules" :model="form" inline ref="formNew">
+        <el-dialog title="项目信息" :v-model="form"  :visible.sync="dialogFormVisible" width="60%" :before-close="handleClose">
+			<el-form label-position="left" :disabled="true" rules="formRules" :model="form" inline ref="formNew">
 				<el-form-item label="项目编号:" prop="itemNo">
 					<el-input v-model="form.itemNo"></el-input>
 				</el-form-item>
@@ -142,6 +142,7 @@
     </div>
 </template>
 <script>
+import { queryTask } from '@/api/NewTask'
 import { fetchTask, backTask, agreeTask } from '@/api/newTaskCheck'
 export default {
     data() {
@@ -150,10 +151,46 @@ export default {
             currentPage: 1,
             pagesize: 20,
             dialogFormVisible: false,
-
+            form: {
+                itemNo: undefined,
+                itemName: undefined,
+                customerType: undefined,
+                businessType: undefined,
+                sampleCkType: undefined,
+                taskSource: undefined,
+                managerUser: undefined,
+                buildTime: undefined,
+                planSum: undefined,
+                planDate: undefined,
+                currCostSum: undefined,
+                currIncomeSum: undefined,
+                thirdCostSum: undefined,
+                invoiceSum: undefined,
+                thirdContractNo: undefined
+            }
         }
     },
-    method: {
+    created() {
+        this.onsubmit()
+    },
+    methods: {
+        onsubmit() {
+            queryTask(this.itemNo, this.itemName, this.businessType).then(response => {
+                console.log(response)
+                if (response.data.data.length === 1 || response.data.data.length === undefined) {
+                    const data = []
+                    data.push(response.data.data)
+                    this.tableData = data
+                } else if (response.data.data.length === 0) {
+                    this.$message({
+                        type: 'error',
+                        message: '没有项目启动'
+                    })
+                }
+                this.tableData = response.data.data
+                console.log(this.tableData)
+            }) 
+        },
         handleSizeChange(size) {
             this.pagesize = size;
         },
@@ -188,6 +225,9 @@ export default {
                     type: 'success'
                 })
             })
+        },
+        handleClose() {
+            this.dialogFormVisible = false
         }
     }
 }
