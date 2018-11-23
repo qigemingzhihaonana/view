@@ -152,10 +152,10 @@ export default {
             pagesize: 20,
             dialogFormVisible: false,
             form: {
-                itemNo: undefined,
-                itemName: undefined,
+                itemNo: '',
+                itemName: '',
                 customerType: undefined,
-                businessType: undefined,
+                businessType: '',
                 sampleCkType: undefined,
                 taskSource: undefined,
                 managerUser: undefined,
