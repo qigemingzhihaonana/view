@@ -36,18 +36,22 @@
                 style="width: 100%">
                 <el-table-column
                 label="项目名称"
+                width="200px"
                 prop="itemName">
                 </el-table-column>
                 <el-table-column
                 label="项目状态"
+                width="150px"
                 prop="name">
                 </el-table-column>
                 <el-table-column
                 label="业务类型"
+                width="200px"
                 prop="businessType">
                 </el-table-column>
                 <el-table-column
                 label="项目经理"
+                width="100px"
                 prop="managerUser">
                 </el-table-column>
                 <!-- <el-table-column
@@ -65,15 +69,19 @@
                 <template slot-scope="scope">
                     <el-button
                     size="mini"
+                    v-if="this.active !== 1 || this.active !== 2"
                     @click="handleEdit(scope.row)">查看项目详细信息</el-button>
                     <el-button
                     size="mini"
+                    v-if="this.active !== 1 "
                     @click="handleStop(scope.row)" >挂起</el-button>
                     <el-button
+                    v-if="this.active !== 1"
                     size="mini"
                     @click="handleStop(scope.row)" >激活</el-button>
                     <el-button
                     size="mini"
+                    v-if="this.active === 1"
                     type="success"
                     @click="handleTask(scope.row)">设置流程</el-button>
                 </template>
