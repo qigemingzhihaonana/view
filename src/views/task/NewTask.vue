@@ -325,7 +325,7 @@ export default {
                 console.log(response)
                 this.active = response.data.data.code
                 if (this.active !== 1) {
-                    this.show = false
+                    this.show = true
                 }
             })
             this.dialogStatus = 'edit'
